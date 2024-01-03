@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="ZcSEHa" name="RCA MK II Sound Effects Filter" projectType="audioplug"
+              useAppConfig="0" addUsingNamespaceToJuceHeader="0" displaySplashScreen="1"
+              jucerFormatVersion="1" defines="JUCE_DISPLAY_SPLASH_SCREEN=0">
+  <MAINGROUP id="xAL0QS" name="RCA MK II Sound Effects Filter">
+    <GROUP id="{B26BA581-C1F5-F4DC-5D5D-E3A3BE3F1FFD}" name="Source">
+      <GROUP id="{0AA7F734-2802-4DF4-3093-B2F35060DBDF}" name="gui">
+        <FILE id="SE6noA" name="CustomLNF.h" compile="0" resource="0" file="Source/CustomLNF.h"/>
+        <FILE id="kMLO7H" name="CustomToggle.h" compile="0" resource="0" file="Source/CustomToggle.h"/>
+        <FILE id="E568cJ" name="LabeledComponent.h" compile="0" resource="0"
+              file="Source/LabeledComponent.h"/>
+        <FILE id="qSFKun" name="ParameterPanel.h" compile="0" resource="0"
+              file="Source/ParameterPanel.h"/>
+        <FILE id="FDBX5d" name="ResponseCurveComponent.h" compile="0" resource="0"
+              file="Source/ResponseCurveComponent.h"/>
+        <FILE id="wAtkk9" name="TopBarComponent.h" compile="0" resource="0"
+              file="Source/TopBarComponent.h"/>
+      </GROUP>
+      <GROUP id="{7768181C-F0E4-3EFB-D714-EB1582BA7595}" name="dsp">
+        <FILE id="Tzsat1" name="chowdsp_wdf.h" compile="0" resource="0" file="Source/chowdsp_wdf.h"/>
+        <FILE id="pzycZ0" name="RCA_MKII_SEF.h" compile="0" resource="0" file="Source/RCA_MKII_SEF.h"/>
+      </GROUP>
+      <FILE id="yXdmZe" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="CSGLPR" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="O6Nbda" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="ZSFKSZ" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="RCA MK II Sound Effects Filter"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="RCA MK II Sound Effects Filter"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../Applications/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../Applications/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+</JUCERPROJECT>
