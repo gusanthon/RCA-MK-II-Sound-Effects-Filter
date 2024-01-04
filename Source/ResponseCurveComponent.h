@@ -16,58 +16,28 @@
 #include "LabeledComponent.h"
 #include "PluginProcessor.h"
 
-class ResponseCurveComponent : public LabeledComponent, juce::AudioProcessorParameter::Listener
+class ResponseCurveComponent : public LabeledComponent,
+                                      juce::Timer
 
 {
 public:
     ResponseCurveComponent(RCAMKIISoundEffectsFilterAudioProcessor& proc) : proc_(proc)
     {
         
-        const auto& params = proc.getParameters();
-        
-        for (auto& param : params)
-            param->addListener(this);
-        
         float gainDb = proc.apvts.getRawParameterValue("OUTPUT_GAIN")->load();
         gain = juce::Decibels::decibelsToGain(gainDb);
         
         updateMags();
         updateResponseCurve();
+        
+        startTimerHz(30);
 
     }
-    
-    ~ResponseCurveComponent()
-    {
-        const auto& params = proc_.getParameters();
 
-        for (auto& param : params)
-            param->removeListener(this);
-    }
     
     void resized() override
     {
         updateResponseCurve();
-    }
-
-    void parameterGestureChanged (int parameterIndex, bool gestureIsStarting) override
-    {
-        if (! gestureIsStarting)
-        {
-            updateMags();
-            updateResponseCurve();
-        }
-    }
-
-    void parameterValueChanged (int parameterIndex, float newValue) override
-    {
-        if (parameterIndex == 6)
-            gain = juce::Decibels::decibelsToGain(newValue * 20);
-        
-        else
-            updateMags();
-        
-        updateResponseCurve();
-
     }
     
     
@@ -86,6 +56,12 @@ public:
     void updateMags()
     {
         proc_.computeMagnitudeResponse(mags);
+    }
+    
+    void timerCallback() override
+    {
+        updateMags();
+        updateResponseCurve();
     }
     
     void updateResponseCurve()
@@ -125,9 +101,6 @@ public:
                     auto mag = jmap(mags[i] * gain, 0.f, 2.f, float(bottom), float(top));
                     if (mag < top)
                         mag = top;
-                    
-//                    if (mag >= bottom)
-//                        continue;
 
                     responseCurve.lineTo(xVal, mag);
                 }
