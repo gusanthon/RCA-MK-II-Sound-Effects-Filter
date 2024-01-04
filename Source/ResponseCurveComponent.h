@@ -37,56 +37,18 @@ public:
 
     }
     
-    void parameterGestureChanged (int parameterIndex, bool gestureIsStarting) override
-    {
-        responseCurveChanged(true);
-    }
-
-    void parameterValueChanged (int parameterIndex, float newValue) override
-    {
-        responseCurveChanged(true);
-    }
-
-    
-    void resized() override
-    {
-        updateResponseCurve();
-    }
-    
-    
-    juce::Rectangle<int> getAnalysisArea()
-    {
-        auto bounds = getLocalBounds();
-        int rectWidth = bounds.getWidth() * 0.8;
-        int rectHeight = bounds.getHeight() * 0.8;
-        int x = bounds.getWidth() / 2 - rectWidth / 2;
-        int y = bounds.getHeight() / 2 - rectHeight / 2;
-
-        juce::Rectangle<int> centeredBounds(x, y, rectWidth, rectHeight);
-        return centeredBounds;
-    }
-    
     void updateMags()
     {
+        gain = proc_.getCurrentGain();
         proc_.computeMagnitudeResponse(mags);
         responseCurveChanged(true);
 
     }
     
-    void timerCallback() override
-    {
-        if (needsUpdate)
-        {
-            updateMags();
-            updateResponseCurve();
-        }
-        
-    }
     
     void updateResponseCurve()
     {
         
-        gain = proc_.getCurrentGain();
 
         juce::MessageManager::callAsync([&]()
         {
@@ -127,7 +89,56 @@ public:
         });
         
     }
+    
+    
+    void responseCurveChanged(bool b)
+    {
+        needsUpdate = b;
+    }
+    
+    
+private:
 
+    void parameterGestureChanged (int parameterIndex, bool gestureIsStarting) override
+    {
+        responseCurveChanged(true);
+    }
+
+    void parameterValueChanged (int parameterIndex, float newValue) override
+    {
+        responseCurveChanged(true);
+    }
+
+    
+    void resized() override
+    {
+        updateResponseCurve();
+    }
+    
+    
+    juce::Rectangle<int> getAnalysisArea()
+    {
+        auto bounds = getLocalBounds();
+        int rectWidth = bounds.getWidth() * 0.8;
+        int rectHeight = bounds.getHeight() * 0.8;
+        int x = bounds.getWidth() / 2 - rectWidth / 2;
+        int y = bounds.getHeight() / 2 - rectHeight / 2;
+
+        juce::Rectangle<int> centeredBounds(x, y, rectWidth, rectHeight);
+        return centeredBounds;
+    }
+    
+
+    void timerCallback() override
+    {
+        if (needsUpdate)
+        {
+            updateMags();
+            updateResponseCurve();
+        }
+        
+    }
+    
 
     void paint(juce::Graphics& g) override
     {
@@ -253,7 +264,6 @@ public:
         {
             -24, -12, 0, 12, 24
         };
-//        return std::vector<float>{-12, -6, 0, 6, 12};
     }
     
     std::vector<float> getXs(const std::vector<float> &freqs, float left, float width)
@@ -297,14 +307,6 @@ public:
             g.drawHorizontalLine(y, left, right);
         }
     }
-
-    void responseCurveChanged(bool b)
-    {
-        needsUpdate = b;
-    }
-    
-private:
-    const int n2 = (int) mags.size() / 2;
     
     const float log20 = std::log10(20.f);
     const float log20k = std::log10(20000.f);
@@ -317,5 +319,7 @@ private:
     juce::Path responseCurve;
     
     std::array<float, fftSize> mags;
+    const int n2 = (int) mags.size() / 2;
+
 };
 
