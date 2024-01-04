@@ -238,16 +238,7 @@ void RCAMKIISoundEffectsFilterAudioProcessor::processBlock (juce::AudioBuffer<fl
 
     }
         
-    if (lowPassControlsChanged || highPassControlsChanged)
-    {
-        for (auto& filter : filters)
-            filter.reset();
 
-        lowPassControlsChanged = false;
-        highPassControlsChanged = false;
-
-    }
-    
 
     if (highPassKnobPos != prevHighPassKnobPos || lowPassKnobPos != prevLowPassKnobPos)
     {
