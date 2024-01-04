@@ -33,7 +33,7 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseTopBar(RCAMKIISoun
     {
         bool state = topBar.responseCurveToggle.getToggleState();
         
-        responseCurve.shouldShowResponse(state);
+        responseCurve.responseCurveChanged(state);
         responseCurve.setVisible(state);
         
         if (state)
@@ -87,6 +87,7 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseHighPassParams(RCA
         responseCurve.updateResponseCurve();
 
     };
+    
     highPassControls.getToggleButton().setToggleState(true, juce::NotificationType::dontSendNotification);
     
     highPassModToggle.getToggleButton().onClick = [&]()
@@ -150,10 +151,10 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseLowPassParams(RCAM
             filter.setLowPassMod(state);
             filter.reset();
         }
-        
-        p.updateFilters();
-        
+                
         p.getDummy().setLowPassMod(state);
+        p.updateFilters();
+
         responseCurve.updateMags();
         responseCurve.updateResponseCurve();
     };

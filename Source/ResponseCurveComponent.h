@@ -17,6 +17,7 @@
 #include "PluginProcessor.h"
 
 class ResponseCurveComponent : public LabeledComponent,
+                                      juce::AudioProcessorParameter::Listener,
                                       juce::Timer
 
 {
@@ -27,11 +28,26 @@ public:
         float gainDb = proc.apvts.getRawParameterValue("OUTPUT_GAIN")->load();
         gain = juce::Decibels::decibelsToGain(gainDb);
         
+        const auto& params = proc.getParameters();
+
+        for (auto& param : params)
+            param->addListener(this);
+        
         updateMags();
         updateResponseCurve();
         
         startTimerHz(30);
 
+    }
+    
+    void parameterGestureChanged (int parameterIndex, bool gestureIsStarting) override
+    {
+        responseCurveChanged(true);
+    }
+
+    void parameterValueChanged (int parameterIndex, float newValue) override
+    {
+        responseCurveChanged(true);
     }
 
     
@@ -56,56 +72,61 @@ public:
     void updateMags()
     {
         proc_.computeMagnitudeResponse(mags);
+        responseCurveChanged(true);
+
     }
     
     void timerCallback() override
     {
-        updateMags();
-        updateResponseCurve();
+        if (needsUpdate)
+        {
+            updateMags();
+            updateResponseCurve();
+        }
+        
     }
     
     void updateResponseCurve()
     {
         
-        if (showResponse)
+
+        juce::MessageManager::callAsync([&]()
         {
+            repaint();
 
-            juce::MessageManager::callAsync([&]()
+            auto bounds = getAnalysisArea();
+            auto left = bounds.getX();
+            auto width = bounds.getWidth();
+            
+            const float outputMin = bounds.getBottom();
+            const float outputMax = bounds.getY();
+
+            const auto fs = proc_.getSampleRate();
+            
+            responseCurve.clear();
+            responseCurve.startNewSubPath(left, juce::jmap(mags[0], 0.f, 2.f, outputMin, outputMax));
+            
+            float bottom = bounds.getBottom();
+            float top = bounds.getY();
+
+            for (int i = 0; i < n2; ++i)
             {
-                repaint();
-
-                auto bounds = getAnalysisArea();
-                auto left = bounds.getX();
-                auto width = bounds.getWidth();
+                float freq = i == 0 ? 20 : (i * fs / n2);
                 
-                const float outputMin = bounds.getBottom();
-                const float outputMax = bounds.getY();
-
-                const auto fs = proc_.getSampleRate();
+                float logFreq = juce::jmap(std::log10(freq), log20, log20k, 0.f, 1.f);
                 
-                responseCurve.clear();
-                responseCurve.startNewSubPath(left, juce::jmap(mags[0], 0.f, 2.f, outputMin, outputMax));
+                float xVal = left + width * logFreq;
+                xVal = std::clamp(xVal, float(left), float(left + width));
+
+                auto mag = jmap(mags[i] * gain, 0.f, 2.f, float(bottom), float(top));
+                if (mag < top)
+                    mag = top;
+
+                responseCurve.lineTo(xVal, mag);
                 
-                float bottom = bounds.getBottom();
-                float top = bounds.getY();
-
-                for (int i = 0; i < n2; ++i)
-                {
-                    float freq = i == 0 ? 20 : (i * fs / n2);
-                    
-                    float logFreq = juce::jmap(std::log10(freq), log20, log20k, 0.f, 1.f);
-                    
-                    float xVal = left + width * logFreq;
-                    xVal = std::clamp(xVal, float(left), float(left + width));
-
-                    auto mag = jmap(mags[i] * gain, 0.f, 2.f, float(bottom), float(top));
-                    if (mag < top)
-                        mag = top;
-
-                    responseCurve.lineTo(xVal, mag);
-                }
-            });
-        }
+                responseCurveChanged(false);
+            }
+        });
         
     }
 
@@ -279,9 +300,9 @@ public:
         }
     }
 
-    void shouldShowResponse(bool b)
+    void responseCurveChanged(bool b)
     {
-        showResponse = b;
+        needsUpdate = b;
     }
     
 private:
@@ -290,7 +311,7 @@ private:
     const float log20 = std::log10(20.f);
     const float log20k = std::log10(20000.f);
     
-    bool showResponse = true;
+    bool needsUpdate = true;
     
     float gain;
     
