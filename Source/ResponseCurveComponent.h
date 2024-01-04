@@ -24,10 +24,7 @@ class ResponseCurveComponent : public LabeledComponent,
 public:
     ResponseCurveComponent(RCAMKIISoundEffectsFilterAudioProcessor& proc) : proc_(proc)
     {
-        
-        float gainDb = proc.apvts.getRawParameterValue("OUTPUT_GAIN")->load();
-        gain = juce::Decibels::decibelsToGain(gainDb);
-        
+
         const auto& params = proc.getParameters();
 
         for (auto& param : params)
@@ -89,6 +86,7 @@ public:
     void updateResponseCurve()
     {
         
+        gain = proc_.getCurrentGain();
 
         juce::MessageManager::callAsync([&]()
         {

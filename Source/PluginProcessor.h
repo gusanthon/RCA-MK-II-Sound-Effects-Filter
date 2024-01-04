@@ -58,6 +58,7 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
     
     void updateFilters();
+    float getCurrentGain();
     
     void computeMagnitudeResponse(std::array<float, fftSize>& result) {dummy.computeMagnitudeResponse(result);}
 

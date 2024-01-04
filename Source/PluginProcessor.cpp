@@ -156,6 +156,13 @@ bool RCAMKIISoundEffectsFilterAudioProcessor::isBusesLayoutSupported (const Buse
 }
 #endif
 
+
+float RCAMKIISoundEffectsFilterAudioProcessor::getCurrentGain()
+{
+    const float gDb = apvts.getRawParameterValue("OUTPUT_GAIN")->load();
+    return juce::Decibels::decibelsToGain(gDb);
+}
+
 void RCAMKIISoundEffectsFilterAudioProcessor::updateFilters()
 {
     
