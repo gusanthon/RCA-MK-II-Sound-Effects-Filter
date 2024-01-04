@@ -51,7 +51,6 @@ public:
 
         juce::MessageManager::callAsync([&]()
         {
-            
             repaint();
 
             auto bounds = getAnalysisArea();
@@ -94,13 +93,19 @@ public:
         needsUpdate = b;
     }
     
+    void hide(bool b)
+    {
+        isHidden = b;
+    }
+    
     
 private:
     
     void timerCallback() override
     {
-        if (needsUpdate)
+        if (needsUpdate && ! isHidden)
         {
+
             updateMags();
             updateResponseCurve();
         }
@@ -311,6 +316,7 @@ private:
     const float log20k = std::log10(20000.f);
     
     bool needsUpdate = true;
+    bool isHidden = false;
     
     float gain;
     

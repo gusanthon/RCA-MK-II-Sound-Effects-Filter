@@ -39,10 +39,15 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseTopBar(RCAMKIISoun
         if (state)
         {
             setSize(getWidth(), getHeight() * 1.5 - topBarHeight);
-            responseCurve.updateResponseCurve();
+            responseCurve.hide(false);
+//            responseCurve.updateResponseCurve();
         }
         else
+        {
             setSize(getWidth(), getHeight() - responseCurve.getHeight());
+            responseCurve.hide(true);
+        }
+            
 
         resized();
 
@@ -51,8 +56,9 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseTopBar(RCAMKIISoun
     topBar.responseCurveToggle.setToggleState(true, juce::NotificationType::dontSendNotification);
     
     addAndMakeVisible(responseCurve);
-    responseCurve.updateMags();
-    responseCurve.updateResponseCurve();
+    responseCurve.responseCurveChanged(true);
+//    responseCurve.updateMags();
+//    responseCurve.updateResponseCurve();
 
 }
 
@@ -79,10 +85,13 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseHighPassParams(RCA
         highPassParams.setContinuous(state);
 
         p.isHighPassContinuous = state;
+        p.highPassControlsChanged = true;
+
         p.updateFilters();
 
         responseCurve.updateMags();
         responseCurve.updateResponseCurve();
+        responseCurve.responseCurveChanged(true);
 
     };
     
@@ -99,6 +108,7 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseHighPassParams(RCA
         }
             
         p.getDummy().setHighPassMod(state);
+        responseCurve.responseCurveChanged(true);
         responseCurve.updateMags();
         responseCurve.updateResponseCurve();
 
@@ -129,10 +139,13 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseLowPassParams(RCAM
         lowPassParams.setContinuous(state);
 
         p.isLowPassContinuous = state;
+        p.lowPassControlsChanged = true;
+        
         p.updateFilters();
 
         responseCurve.updateMags();
         responseCurve.updateResponseCurve();
+        responseCurve.responseCurveChanged(true);
 
     };
     
@@ -152,7 +165,8 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseLowPassParams(RCAM
         p.updateFilters();
 
         responseCurve.updateMags();
-        responseCurve.updateResponseCurve();
+//        responseCurve.updateResponseCurve();
+        responseCurve.responseCurveChanged(true);
     };
     
     lowPassModToggle.getToggleButton().setToggleState(true, juce::NotificationType::dontSendNotification);
@@ -217,6 +231,6 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::resized()
     else
         Container.setOrientation(true);
     
-    responseCurve.updateResponseCurve();
+//    responseCurve.updateResponseCurve();
 
 }
