@@ -81,8 +81,8 @@ public:
 
                 responseCurve.lineTo(xVal, mag);
                 
-                responseCurveChanged(false);
             }
+            responseCurveChanged(false);
         });
         
     }
