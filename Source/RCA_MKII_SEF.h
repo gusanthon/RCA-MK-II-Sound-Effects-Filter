@@ -190,7 +190,7 @@ public:
         return voltage<float>(Rt);
     }
     
-#define fftOrder 13
+#define fftOrder 15
 #define fftSize 2 << fftOrder
     
     void computeMagnitudeResponse(std::array<float, fftSize>& result) noexcept

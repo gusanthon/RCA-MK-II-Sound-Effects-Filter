@@ -48,26 +48,23 @@ public:
     
     void updateResponseCurve()
     {
-        
 
         juce::MessageManager::callAsync([&]()
         {
+            
             repaint();
 
             auto bounds = getAnalysisArea();
             auto left = bounds.getX();
             auto width = bounds.getWidth();
-            
-            const float outputMin = bounds.getBottom();
-            const float outputMax = bounds.getY();
 
             const auto fs = proc_.getSampleRate();
             
-            responseCurve.clear();
-            responseCurve.startNewSubPath(left, juce::jmap(mags[0], 0.f, 2.f, outputMin, outputMax));
-            
             float bottom = bounds.getBottom();
             float top = bounds.getY();
+            
+            responseCurve.clear();
+            responseCurve.startNewSubPath(left, juce::jmap(mags[0], 0.f, 2.f, bottom, top));
 
             for (int i = 0; i < n2; ++i)
             {
@@ -91,6 +88,7 @@ public:
     }
     
     
+    
     void responseCurveChanged(bool b)
     {
         needsUpdate = b;
@@ -98,6 +96,16 @@ public:
     
     
 private:
+    
+    void timerCallback() override
+    {
+        if (needsUpdate)
+        {
+            updateMags();
+            updateResponseCurve();
+        }
+        
+    }
 
     void parameterGestureChanged (int parameterIndex, bool gestureIsStarting) override
     {
@@ -129,15 +137,6 @@ private:
     }
     
 
-    void timerCallback() override
-    {
-        if (needsUpdate)
-        {
-            updateMags();
-            updateResponseCurve();
-        }
-        
-    }
     
 
     void paint(juce::Graphics& g) override
