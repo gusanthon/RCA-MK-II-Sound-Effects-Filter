@@ -99,26 +99,27 @@ public:
     {
         /**@TODO this needs cleaning up **/
         
+        const int xPos = 0;
+        const int yPos = 0;
+        
+        auto backgroundColor = juce::Colours::grey.withAlpha(.65f);
+        auto r = juce::Colours::red;
+        
+        if (shouldDrawButtonAsDown)
+            r = r.brighter();
+        
+        if (shouldDrawButtonAsHighlighted)
+        {
+            backgroundColor = backgroundColor.withAlpha(.4f);
+            r = r.withAlpha(.7f);
+        }
+        
         if (vertical_)
         {
             const int width = button.getWidth() ;
             const int height = button.getHeight() * .5;
 
-            const int xPos = 0;
-            const int yPos = 0;
-
-            auto backgroundColor = juce::Colours::grey.withAlpha(.65f);
-            auto r = juce::Colours::red;
             
-            if (shouldDrawButtonAsDown)
-                r = r.brighter();
-
-            if (shouldDrawButtonAsHighlighted)
-            {
-                backgroundColor = backgroundColor.withAlpha(.4f);
-                r = r.withAlpha(.7f);
-            }
-
             g.setColour(backgroundColor);
             g.fillRect(xPos, yPos, width, height);
             
@@ -150,21 +151,6 @@ public:
         {
             const int width = button.getWidth() * .5;
             const int height = button.getHeight();
-
-            const int xPos = 0;
-            const int yPos = 0;
-
-            auto backgroundColor = juce::Colours::grey.withAlpha(.65f);
-            auto r = juce::Colours::red;
-
-            if (shouldDrawButtonAsDown)
-                r = r.brighter();
-            
-            if (shouldDrawButtonAsHighlighted)
-            {
-                backgroundColor = backgroundColor.withAlpha(.4f);
-                r = r.withAlpha(.7f);
-            }
 
 
             g.setColour(backgroundColor);
@@ -201,6 +187,7 @@ protected:
     juce::String onText {"ON"};
     juce::String offText {"OFF"};
 };
+
 
 
 class ControlsLNF : public ToggleLNF
