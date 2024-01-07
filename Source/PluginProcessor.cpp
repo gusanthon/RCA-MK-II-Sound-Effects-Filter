@@ -272,30 +272,6 @@ void RCAMKIISoundEffectsFilterAudioProcessor::processBlock (juce::AudioBuffer<fl
         
         filters[channel].setInputImpedance(mappedZIn);
         filters[channel].setOutputImpedance(mappedZOut);
-        
-//
-//        if (isLowPassContinuous)
-//        {
-//            filters[channel].setLowPassCutoff(lpfSmooth[channel].getNextValue());
-//            dummy.setLowPassCutoff(lowPassCutoff);
-//        }
-//        else
-//        {
-//            filters[channel].setLowPassKnobPos(lowPassKnobPos);
-//            dummy.setLowPassKnobPos(lowPassKnobPos);
-//        }
-//
-//        if (isHighPassContinuous)
-//        {
-//            filters[channel].setHighPassCutoff(hpfSmooth[channel].getNextValue());
-//            dummy.setHighPassCutoff(highPassCutoff);
-//        }
-//
-//        else
-//        {
-//            filters[channel].setHighPassKnobPos(highPassKnobPos);
-//            dummy.setHighPassKnobPos(highPassKnobPos);
-//        }
             
 
         auto* channelData = buffer.getWritePointer (channel);

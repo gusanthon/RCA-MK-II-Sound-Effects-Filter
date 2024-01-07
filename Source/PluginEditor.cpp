@@ -86,6 +86,12 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseHighPassParams(RCA
 
         p.isHighPassContinuous = state;
         p.highPassControlsChanged = true;
+        
+        for (auto& filter : p.getFilters())
+        {
+            filter.setLowPassMod(state);
+            filter.reset();
+        }
 
         p.updateFilters();
 
@@ -140,6 +146,12 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseLowPassParams(RCAM
 
         p.isLowPassContinuous = state;
         p.lowPassControlsChanged = true;
+        
+        for (auto& filter : p.getFilters())
+        {
+            filter.setLowPassMod(state);
+            filter.reset();
+        }
         
         p.updateFilters();
 
