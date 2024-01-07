@@ -234,8 +234,9 @@ public:
 private:
     
     juce::dsp::FFT fft {fftOrder};
-
-    const std::array<float, fftSize> impulse = {1};
+    
+    float i = juce::Decibels::decibelsToGain(1e-12);
+    const std::array<float, fftSize> impulse = {i};
 
     const float root2 = juce::MathConstants<float>::sqrt2;
     const float twoPi = juce::MathConstants<float>::twoPi;
