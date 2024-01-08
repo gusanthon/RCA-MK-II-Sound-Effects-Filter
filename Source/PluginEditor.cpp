@@ -94,9 +94,6 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseHighPassParams(RCA
         }
 
         p.updateFilters();
-
-        responseCurve.updateMags();
-        responseCurve.updateResponseCurve();
         responseCurve.responseCurveChanged(true);
 
     };
@@ -154,9 +151,6 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseLowPassParams(RCAM
         }
         
         p.updateFilters();
-
-        responseCurve.updateMags();
-        responseCurve.updateResponseCurve();
         responseCurve.responseCurveChanged(true);
 
     };
