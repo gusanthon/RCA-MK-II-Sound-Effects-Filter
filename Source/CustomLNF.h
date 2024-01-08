@@ -114,20 +114,23 @@ public:
             r = r.withAlpha(.7f);
         }
         
+        int width = button.getWidth() ;
+        int height = button.getHeight();
+        
         if (vertical_)
         {
-            const int width = button.getWidth() ;
-            const int height = button.getHeight() * .5;
 
+            height *= .5;
             
             g.setColour(backgroundColor);
             g.fillRect(xPos, yPos, width, height);
             
             g.setFont(Font(GLOBAL_FONT, "Bold", fontSize));
 
+            g.setColour(r);
+
             if (button.getToggleState())
             {
-                g.setColour(r);
                 g.fillRect(xPos, yPos, width, height / 2);
 
                 g.setColour(juce::Colours::white);
@@ -136,31 +139,26 @@ public:
 
             else
             {
-                g.setColour(r);
                 g.fillRect(xPos, yPos + height / 2, width, height / 2);
 
                 g.setColour(juce::Colours::white);
                 g.drawFittedText(offText, xPos, yPos + height / 2, width, height / 2, Justification::centred, 1);
             }
-
-            g.setColour(juce::Colours::black);
-            g.drawRect(xPos, yPos, width, height);
-
         }
+        
         else
         {
-            const int width = button.getWidth() * .5;
-            const int height = button.getHeight();
-
+            
+            width *= .5;
 
             g.setColour(backgroundColor);
             g.fillRect(xPos, yPos, width, height);
 
             g.setFont(Font(GLOBAL_FONT, "Bold", fontSize));
+            g.setColour(r);
 
             if (button.getToggleState())
             {
-                g.setColour(r);
                 g.fillRect(xPos, yPos, width / 2, height);
 
                 g.setColour(juce::Colours::white);
@@ -168,17 +166,16 @@ public:
             }
             else
             {
-                g.setColour(r);
                 g.fillRect(xPos + width / 2, yPos, width / 2, height);
 
                 g.setColour(juce::Colours::white);
                 g.drawFittedText(offText, xPos + width / 2, yPos, width / 2, height, Justification::centred, 1);
             }
 
-            g.setColour(juce::Colours::black);
-            g.drawRect(xPos, yPos, width, height);
-
         }
+        
+        g.setColour(juce::Colours::black);
+        g.drawRect(xPos, yPos, width, height);
       
     }
 protected:

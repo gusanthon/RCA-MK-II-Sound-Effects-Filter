@@ -89,7 +89,7 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseHighPassParams(RCA
         
         for (auto& filter : p.getFilters())
         {
-            filter.setLowPassMod(state);
+            filter.setHighPassMod(state);
             filter.reset();
         }
 
