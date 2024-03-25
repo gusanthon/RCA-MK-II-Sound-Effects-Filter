@@ -41,7 +41,6 @@ public:
     {
         gain = proc_.getCurrentGain();
         proc_.computeMagnitudeResponse(mags);
-        responseCurveChanged(true);
 
     }
     
@@ -81,7 +80,7 @@ public:
                 responseCurve.lineTo(xVal, mag);
                 
             }
-            responseCurveChanged(false);
+            needsUpdate = false;
         });
         
     }
@@ -92,7 +91,7 @@ public:
     {
         needsUpdate = b;
     }
-    
+
     void hide(bool b)
     {
         isHidden = b;
@@ -114,12 +113,12 @@ private:
 
     void parameterGestureChanged (int parameterIndex, bool gestureIsStarting) override
     {
-        responseCurveChanged(true);
+        needsUpdate = true;
     }
 
     void parameterValueChanged (int parameterIndex, float newValue) override
     {
-        responseCurveChanged(true);
+        needsUpdate = true;
     }
 
     
