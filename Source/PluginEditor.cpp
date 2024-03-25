@@ -112,8 +112,8 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseHighPassParams(RCA
             
         p.getDummy().setHighPassMod(state);
         responseCurve.responseCurveChanged(true);
-        responseCurve.updateMags();
-        responseCurve.updateResponseCurve();
+//        responseCurve.updateMags();
+//        responseCurve.updateResponseCurve();
 
     };
     highPassModToggle.getToggleButton().setToggleState(true, juce::NotificationType::dontSendNotification);
@@ -170,7 +170,7 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseLowPassParams(RCAM
         p.getDummy().setLowPassMod(state);
         p.updateFilters();
 
-        responseCurve.updateMags();
+//        responseCurve.updateMags();
 //        responseCurve.updateResponseCurve();
         responseCurve.responseCurveChanged(true);
     };
