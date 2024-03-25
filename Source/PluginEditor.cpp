@@ -40,7 +40,6 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseTopBar(RCAMKIISoun
         {
             setSize(getWidth(), getHeight() * 1.5 - topBarHeight);
             responseCurve.hide(false);
-//            responseCurve.updateResponseCurve();
         }
         else
         {
@@ -57,8 +56,6 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseTopBar(RCAMKIISoun
     
     addAndMakeVisible(responseCurve);
     responseCurve.responseCurveChanged(true);
-//    responseCurve.updateMags();
-//    responseCurve.updateResponseCurve();
 
 }
 
@@ -112,8 +109,6 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseHighPassParams(RCA
             
         p.getDummy().setHighPassMod(state);
         responseCurve.responseCurveChanged(true);
-//        responseCurve.updateMags();
-//        responseCurve.updateResponseCurve();
 
     };
     highPassModToggle.getToggleButton().setToggleState(true, juce::NotificationType::dontSendNotification);
@@ -170,8 +165,6 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::initialiseLowPassParams(RCAM
         p.getDummy().setLowPassMod(state);
         p.updateFilters();
 
-//        responseCurve.updateMags();
-//        responseCurve.updateResponseCurve();
         responseCurve.responseCurveChanged(true);
     };
     
@@ -236,7 +229,5 @@ void RCAMKIISoundEffectsFilterAudioProcessorEditor::resized()
         Container.setOrientation(false);
     else
         Container.setOrientation(true);
-    
-//    responseCurve.updateResponseCurve();
 
 }
